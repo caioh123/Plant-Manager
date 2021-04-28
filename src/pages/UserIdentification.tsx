@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import {StyleSheet, View, Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform} from 'react-native'
+import {StyleSheet, View, Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform, Alert} from 'react-native'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/core'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 export const UserIdentification = () => {
@@ -27,10 +28,18 @@ export const UserIdentification = () => {
         setName(value)
     }
 
-    
+    async function handleSubmit() {
+        if(!name)
+        return Alert.alert("Me diz como chamar você 😊")
 
-    const handleSubmit = () => {
-    navigation.navigate("Confirmation")
+        try {
+            await AsyncStorage.setItem("@plantmanager:user", name)
+             navigation.navigate("Confirmation")
+            
+        } catch {
+            Alert.alert("Não foi possível salvar seu nome 😥")
+        }
+
     }
 
 

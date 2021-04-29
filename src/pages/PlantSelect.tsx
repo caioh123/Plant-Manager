@@ -187,5 +187,4 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         justifyContent: 'center'
     },
-
 })

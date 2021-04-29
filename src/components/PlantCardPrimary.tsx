@@ -16,14 +16,20 @@ import fonts from '../styles/fonts'
      }
  }
 
-export const PlantCardPrimary = ({data, ...rest} : PlantProps) => {
-    return (
+ export const PlantCardPrimary = ({ data, ...rest} : PlantProps) => {
+    return(
         <RectButton
-        style={styles.container}
-        {...rest}
+            style={styles.container}
+            {...rest}
         >
-            <SvgFromUri uri={data.photo} width={70} height={70} />
-            <Text style={styles.text}>{data.name}</Text>
+            <SvgFromUri 
+                uri={data.photo} 
+                width={70} 
+            height={70} 
+            />
+            <Text style={styles.text}>
+                { data.name }
+            </Text>
         </RectButton>
     )
 }
@@ -31,12 +37,12 @@ export const PlantCardPrimary = ({data, ...rest} : PlantProps) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        maxWidth: "45%",
+        maxWidth: '45%',
         backgroundColor: colors.shape,
         borderRadius: 20,
-        alignItems: "center",
-        margin: 10,
         paddingVertical: 10,
+        alignItems: 'center',
+        margin: 10
     },
     text: {
         color: colors.green_dark,

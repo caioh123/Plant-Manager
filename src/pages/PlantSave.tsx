@@ -8,9 +8,9 @@ import waterdrop from '../assets/waterdrop.png'
 import colors from '../styles/colors'
 import { getBottomSpace } from 'react-native-iphone-x-helper'
 import fonts from '../styles/fonts'
-import { useRoute } from '@react-navigation/core'
+import { useNavigation, useRoute } from '@react-navigation/core'
 import DateTimePicker, {Event} from '@react-native-community/datetimepicker'
-import { PlantProps } from '../libs/storage'
+import {  PlantProps, savePlant } from '../libs/storage'
 
 interface Params {    
     plant: PlantProps
@@ -23,7 +23,10 @@ export const PlantSave = () => {
     const route = useRoute()
     const {plant} = route.params as Params
 
+    const navigation = useNavigation()
+
     function handleChangeTime(event: Event, dateTime: Date | undefined) {
+        console.log('>>>>', dateTime);
         if(Platform.OS === "android") {
             setShowDatePicker(oldState => !oldState)
         }
@@ -33,85 +36,101 @@ export const PlantSave = () => {
             return Alert.alert("Escolha uma hora no futuro! ⌚")
         }
 
-        if(dateTime)
-        setSelectedDateTime(dateTime)
+        if(dateTime) {
+            console.log(dateTime);
+            setSelectedDateTime(dateTime)
+        }
+        
     }
 
     function handleOpenDatetimePickerForAndroid(){
         setShowDatePicker(oldState => !oldState)
     }
 
-    function handleSave() {
+
+
+    async function handleSave() {
+
         try {
-            
+            await savePlant({
+                ...plant,
+                dateTimeNotification: selectedDateTime
+            })
+
+            navigation.navigate("Confirmation", {
+                title: "Tudo certo",
+                subtitle: "Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com muito cuidado.",
+                buttonTitle: "Muito Obrigado :D",
+                icon: "hug",
+                nextScreen: "MyPlants"
+            })
+
         } catch  {
-            Alert.alert("Escolha uma hora no futuro! ⌚")
+            Alert.alert("Não foi possível salvar. 😥")
         }
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.plantInfo}>
-                <SvgFromUri
-                uri={plant.photo}
-                height={150}
-                width={150}
-                />
-                
-                <Text style={styles.plantName}>
-                    {plant.name}
-                </Text>
-                <Text style={styles.plantAbout}>
-                    {plant.about}
-                </Text>
-            </View>
-
-            <View style={styles.controller}>
-                <View style={styles.tipContainer}>
-                    <Image
-                    source={waterdrop}
-                    style={styles.tipImage}
+                <View style={styles.plantInfo}>
+                    <SvgFromUri
+                        uri={plant.photo}
+                        height={150}
+                        width={150}
                     />
-                    <Text style={styles.tipText}>
-                        {plant.water_tips}
+
+                    <Text style={styles.plantName}>
+                    {plant.name}
+                    </Text>
+                    <Text style={styles.plantAbout}>
+                        {plant.about} 
                     </Text>
                 </View>
 
-
-                <Text style={styles.alertLabel}>
-                    Escolha o melhor horário para ser lembrado
-                </Text>
-
-                {showDatePicker && (
-                    <DateTimePicker
-                    value={selectedDateTime}
-                    mode="time"
-                    display="spinner"
-                    onChange={handleChangeTime}
-                    />
-                )}
-
-                {
-                    Platform.OS === "android" && (
-                        <TouchableOpacity
-                        style={styles.dateTimePickerButton}
-                        onPress={handleOpenDatetimePickerForAndroid}
-                        >
-                        <Text style={styles.dateTimePickerText}>
-                            {`Mudar ${format(selectedDateTime, "HH:mm")}`}
+                <View style={styles.controller}>
+                    <View style={styles.tipContainer}>
+                        <Image
+                            source={waterdrop}
+                            style={styles.tipImage}
+                        />
+                        <Text style={styles.tipText}>
+                            {plant.water_tips}
                         </Text>
-                        </TouchableOpacity>
-                    )
-                }
+                    </View>
 
-                <Button
-                title="Cadastrar planta"
-                onPress={handleSave}
-                />
+                    <Text style={styles.alertLabel}>
+                        Escolha o melhor horário para ser lembrado:
+                    </Text>
+
+                    {showDatePicker && (
+                        <DateTimePicker
+                        value={selectedDateTime}
+                        mode="time"
+                        display="spinner"
+                        onChange={handleChangeTime}
+                        />
+                    )}
+
+                    {
+                        Platform.OS === 'android' && (
+                            <TouchableOpacity 
+                                style={styles.dateTimePickerButton}
+                                onPress={handleOpenDatetimePickerForAndroid}
+                            >
+                                <Text style={styles.dateTimePickerText}>
+                                {`Mudar ${format(selectedDateTime, 'HH:mm')}`}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    }
 
 
+                    <Button 
+                        title="Cadastrar planta"
+                        onPress={handleSave}
+                    />
+                </View>
             </View>
-        </View>
     )
 }
 

@@ -5,8 +5,6 @@
 <p align="center">
   <img alt="License" src="https://github.com/caioh123/Plant-Manager/blob/main/src/assets/plantmanager.png">
 
- <img src="https://img.shields.io/static/v1?label=NLW&message=05&color=32B768&labelColor=000000" alt="NLW 05" />
-</p>
 
 <br>
 

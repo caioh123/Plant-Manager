@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="Plant Manager" title="Plant Manager" https://github.com/rocketseat-education/nlw-05-react-native/blob/main/.github/logo.png />
+  <p>Plant Manager</p>
 </h1>
 
 <p align="center">

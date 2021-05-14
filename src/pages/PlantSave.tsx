@@ -71,7 +71,11 @@ export const PlantSave = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.container}
+        >
+            <View style={styles.container}>
                 <View style={styles.plantInfo}>
                     <SvgFromUri
                         uri={plant.photo}
@@ -131,6 +135,8 @@ export const PlantSave = () => {
                     />
                 </View>
             </View>
+        </ScrollView>
+
     )
 }
 

@@ -96,7 +96,7 @@ export const PlantSelect = () => {
     }, [])
 
     if(loading)
-    return <Load />
+        return <Load />
 
     return (
         <View style={styles.container}>

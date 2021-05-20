@@ -29,7 +29,7 @@ Você pode visualizar o layout do projeto através [desse link](https://www.figm
 
 - Clone o repositório
 - Instale as dependências com `yarn`
-- Inicie seu app com `expo start`
+- Inicie seu app com `expo start` 
 - Inicie a fake api com `json-server ./src/services server.json --host 192.168.1.77 --port 3333 --delay 700`. Substitua o host pelo seu endereço IP local. Faça o mesmo no arquivo API dentro de services.
 
 
